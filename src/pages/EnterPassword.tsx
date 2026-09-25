@@ -9,12 +9,6 @@ import {
   useSearchParams,
 } from "react-router-dom";
 
-import {
-  Eye,
-  EyeOff,
-  AlertCircle,
-} from "lucide-react";
-
 import { PrimaryButton } from "../components/ui/Button";
 import { verifyPassword } from "../api/auth";
 
@@ -46,17 +40,6 @@ export const EnterPassword = () => {
   const [loading, setLoading] =
     useState(false);
 
-  /*
-   * Each email gets its own failed-attempt counter.
-   *
-   * Example:
-   *
-   * failedAttempts_jaghanav@acmecorp.com
-   * failedAttempts_shaik@acmecorp.com
-   *
-   * This means one account's failed attempts
-   * do not affect another account.
-   */
   const getAttemptStorageKey = () => {
     return `failedPasswordAttempts_${email.toLowerCase()}`;
   };
@@ -86,11 +69,6 @@ export const EnterPassword = () => {
     return attempts;
   };
 
-  /*
-   * If the user directly opens /login
-   * without an email, send them back
-   * to the registration page.
-   */
   useEffect(() => {
     if (!email) {
       navigate("/register", {
@@ -99,10 +77,6 @@ export const EnterPassword = () => {
     }
   }, [email, navigate]);
 
-  /*
-   * Check whether this email has already
-   * reached the maximum number of attempts.
-   */
   useEffect(() => {
     if (!email) {
       return;
@@ -140,11 +114,6 @@ export const EnterPassword = () => {
     const currentFailedAttempts =
       getFailedAttempts();
 
-    /*
-     * If the account has already reached
-     * 5 failed attempts, do not allow
-     * another password check.
-     */
     if (
       currentFailedAttempts >=
       MAX_ATTEMPTS
@@ -165,10 +134,6 @@ export const EnterPassword = () => {
         );
 
       if (!isValid) {
-        /*
-         * Increase the failed-attempt
-         * count for THIS email only.
-         */
         const newFailedAttempts =
           currentFailedAttempts + 1;
 
@@ -177,10 +142,6 @@ export const EnterPassword = () => {
           newFailedAttempts.toString()
         );
 
-        /*
-         * Fifth incorrect password:
-         * immediately go to Account Locked.
-         */
         if (
           newFailedAttempts >=
           MAX_ATTEMPTS
@@ -192,10 +153,6 @@ export const EnterPassword = () => {
           return;
         }
 
-        /*
-         * Attempts remaining after
-         * the current failed attempt.
-         */
         const attemptsRemaining =
           MAX_ATTEMPTS -
           newFailedAttempts;
@@ -211,12 +168,6 @@ export const EnterPassword = () => {
         return;
       }
 
-      /*
-       * Correct password.
-       *
-       * Reset failed attempts for
-       * this particular account.
-       */
       sessionStorage.removeItem(
         getAttemptStorageKey()
       );
@@ -233,10 +184,6 @@ export const EnterPassword = () => {
         );
       }
 
-      /*
-       * Correct password:
-       * continue to 2FA.
-       */
       navigate("/2fa");
     } catch (error) {
       console.error(
@@ -323,10 +270,9 @@ export const EnterPassword = () => {
       {error && (
         <div className="bg-red-50 border border-red-100 rounded-lg p-4 flex gap-3 text-red-700 text-sm">
 
-          <AlertCircle
-            size={18}
-            className="mt-0.5 flex-shrink-0"
-          />
+          <span className="mt-0.5 flex-shrink-0 text-lg">
+            ⚠
+          </span>
 
           <div>
             <p className="font-semibold">
@@ -386,11 +332,46 @@ export const EnterPassword = () => {
             }
             disabled={loading}
             className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500"
+            aria-label={
+              showPassword
+                ? "Hide password"
+                : "Show password"
+            }
           >
             {showPassword ? (
-              <EyeOff size={20} />
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M3 3l18 18" />
+                <path d="M10.58 10.58a2 2 0 0 0 2.83 2.83" />
+                <path d="M9.88 4.24A9.77 9.77 0 0 1 12 4c5 0 8.5 5 8.5 5a16.16 16.16 0 0 1-2.17 2.57" />
+                <path d="M6.61 6.61C3.82 8.57 2 12 2 12s3.5 5 10 5a9.77 9.77 0 0 0 2.12-.24" />
+              </svg>
             ) : (
-              <Eye size={20} />
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z" />
+                <circle
+                  cx="12"
+                  cy="12"
+                  r="3"
+                />
+              </svg>
             )}
           </button>
 

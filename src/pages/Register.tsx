@@ -1,11 +1,5 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import {
-  AlertCircle,
-  Eye,
-  EyeOff,
-} from "lucide-react";
-
 import { createUser } from "../api/auth";
 
 export default function Register() {
@@ -26,23 +20,18 @@ export default function Register() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  // -----------------------------------------
-  // REGISTER USER
-  // -----------------------------------------
-
   const handleRegister = async () => {
     setError("");
 
     const trimmedName = name.trim();
-    const trimmedEmail = email.trim().toLowerCase();
+    const trimmedEmail =
+      email.trim().toLowerCase();
 
-    // Full name validation
     if (!trimmedName) {
       setError("Full name is required.");
       return;
     }
 
-    // Email validation
     if (!trimmedEmail) {
       setError("Work email is required.");
       return;
@@ -53,7 +42,6 @@ export default function Register() {
       return;
     }
 
-    // Password validation
     if (!password) {
       setError("Password is required.");
       return;
@@ -66,7 +54,6 @@ export default function Register() {
       return;
     }
 
-    // Confirm password validation
     if (!confirmPassword) {
       setError("Please confirm your password.");
       return;
@@ -80,32 +67,22 @@ export default function Register() {
     try {
       setLoading(true);
 
-      // Create account
       const user = await createUser(
         trimmedName,
         trimmedEmail,
         password
       );
 
-      // Store email
       sessionStorage.setItem(
         "authEmail",
         user.email
       );
 
-      // Store registration OTP
       sessionStorage.setItem(
         "registrationOtp",
         user.otp
       );
 
-      /*
-       * After registration:
-       *
-       * Register
-       *    ↓
-       * Enter your password
-       */
       navigate(
         `/login?email=${encodeURIComponent(
           user.email
@@ -128,10 +105,6 @@ export default function Register() {
       setLoading(false);
     }
   };
-
-  // -----------------------------------------
-  // EXISTING USER SIGN IN
-  // -----------------------------------------
 
   const handleExistingUserSignIn = () => {
     const trimmedEmail =
@@ -158,18 +131,10 @@ export default function Register() {
     );
   };
 
-  // -----------------------------------------
-  // CHECK EXISTING USER ERROR
-  // -----------------------------------------
-
   const isExistingUserError =
     error
       .toLowerCase()
       .includes("already exists");
-
-  // -----------------------------------------
-  // SIGN IN FROM REGISTER PAGE
-  // -----------------------------------------
 
   const handleSignIn = () => {
     const trimmedEmail =
@@ -193,16 +158,8 @@ export default function Register() {
     navigate("/login");
   };
 
-  // -----------------------------------------
-  // UI
-  // -----------------------------------------
-
   return (
     <div className="w-full max-w-[480px]">
-
-      {/* ================================
-          HEADER
-      ================================= */}
 
       <div className="mb-8">
 
@@ -220,19 +177,14 @@ export default function Register() {
 
       </div>
 
-      {/* ================================
-          ERROR MESSAGE
-      ================================= */}
-
       {error && (
         <div className="mb-6 rounded-lg border border-red-100 bg-red-50 p-4">
 
           <div className="flex gap-3 text-red-700">
 
-            <AlertCircle
-              size={18}
-              className="mt-0.5 shrink-0"
-            />
+            <span className="mt-0.5 shrink-0 text-lg">
+              ⚠
+            </span>
 
             <div>
 
@@ -248,7 +200,6 @@ export default function Register() {
 
           </div>
 
-          {/* Existing account */}
           {isExistingUserError && (
             <button
               type="button"
@@ -264,10 +215,6 @@ export default function Register() {
         </div>
       )}
 
-      {/* ================================
-          REGISTRATION FORM
-      ================================= */}
-
       <form
         onSubmit={(event) => {
           event.preventDefault();
@@ -275,10 +222,6 @@ export default function Register() {
         }}
         className="space-y-5"
       >
-
-        {/* ================================
-            FULL NAME
-        ================================= */}
 
         <div>
 
@@ -305,10 +248,6 @@ export default function Register() {
 
         </div>
 
-        {/* ================================
-            WORK EMAIL
-        ================================= */}
-
         <div>
 
           <label
@@ -333,10 +272,6 @@ export default function Register() {
           />
 
         </div>
-
-        {/* ================================
-            PASSWORD
-        ================================= */}
 
         <div>
 
@@ -380,19 +315,45 @@ export default function Register() {
               className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700 transition"
             >
               {showPassword ? (
-                <EyeOff size={20} />
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M3 3l18 18" />
+                  <path d="M10.58 10.58a2 2 0 0 0 2.83 2.83" />
+                  <path d="M9.88 4.24A9.77 9.77 0 0 1 12 4c5 0 8.5 5 8.5 5a16.16 16.16 0 0 1-2.17 2.57" />
+                  <path d="M6.61 6.61C3.82 8.57 2 12 2 12s3.5 5 10 5a9.77 9.77 0 0 0 2.12-.24" />
+                </svg>
               ) : (
-                <Eye size={20} />
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z" />
+                  <circle
+                    cx="12"
+                    cy="12"
+                    r="3"
+                  />
+                </svg>
               )}
             </button>
 
           </div>
 
         </div>
-
-        {/* ================================
-            CONFIRM PASSWORD
-        ================================= */}
 
         <div>
 
@@ -436,9 +397,39 @@ export default function Register() {
               className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700 transition"
             >
               {showConfirmPassword ? (
-                <EyeOff size={20} />
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M3 3l18 18" />
+                  <path d="M10.58 10.58a2 2 0 0 0 2.83 2.83" />
+                  <path d="M9.88 4.24A9.77 9.77 0 0 1 12 4c5 0 8.5 5 8.5 5a16.16 16.16 0 0 1 2.17 2.57" />
+                  <path d="M6.61 6.61C3.82 8.57 2 12 2 12s3.5 5 10 5a9.77 9.77 0 0 0 2.12-.24" />
+                </svg>
               ) : (
-                <Eye size={20} />
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z" />
+                  <circle
+                    cx="12"
+                    cy="12"
+                    r="3"
+                  />
+                </svg>
               )}
             </button>
 
@@ -446,17 +437,9 @@ export default function Register() {
 
         </div>
 
-        {/* ================================
-            PASSWORD REQUIREMENT
-        ================================= */}
-
         <p className="text-sm text-slate-500 -mt-2">
           Password must contain at least 8 characters.
         </p>
-
-        {/* ================================
-            CREATE ACCOUNT BUTTON
-        ================================= */}
 
         <button
           type="submit"
@@ -469,10 +452,6 @@ export default function Register() {
         </button>
 
       </form>
-
-      {/* ================================
-          SIGN IN
-      ================================= */}
 
       <div className="text-center text-sm text-slate-500 border-t border-slate-100 pt-6 mt-7">
 

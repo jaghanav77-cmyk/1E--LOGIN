@@ -9,8 +9,6 @@ import {
   useNavigate,
 } from 'react-router-dom';
 
-import { AlertCircle } from 'lucide-react';
-
 import { PrimaryButton } from '../components/ui/Button';
 import {
   getUserByEmail,
@@ -46,10 +44,6 @@ export const TwoFactor = () => {
   const inputRefs =
     useRef<(HTMLInputElement | null)[]>([]);
 
-  /*
-   * Get the OTP belonging to the
-   * currently signed-in user.
-   */
   useEffect(() => {
     const loadUserOtp = async () => {
       if (!email) {
@@ -214,10 +208,9 @@ export const TwoFactor = () => {
       {error && (
         <div className="bg-red-50 border border-red-100 rounded-lg p-4 flex gap-3 text-red-700 text-sm">
 
-          <AlertCircle
-            size={18}
-            className="mt-0.5 flex-shrink-0"
-          />
+          <span className="mt-0.5 flex-shrink-0 text-lg">
+            ⚠
+          </span>
 
           <div>
             <p className="font-semibold">

@@ -111,6 +111,13 @@
       "password": "Jaghanav10*",
       "otp": "267334",
       "id": "oeZQjsEGeKU"
+    },
+    {
+      "name": "Jaghanav Priyan M S K",
+      "email": "jaghanav44@gmail.com",
+      "password": "H7pHEQgMXi3UjSe",
+      "otp": "634253",
+      "id": "cgR4HngMHms"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
