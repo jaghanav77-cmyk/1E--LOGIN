@@ -16,25 +16,19 @@ export const getUserByEmail = async (
   );
 
   if (!response.ok) {
-    throw new Error(
-      "Unable to connect to the server"
-    );
+    throw new Error("Unable to connect to the server");
   }
 
-  const users: User[] =
-    await response.json();
+  const users: User[] = await response.json();
 
-  return users.length > 0
-    ? users[0]
-    : null;
+  return users.length > 0 ? users[0] : null;
 };
 
 export const verifyPassword = async (
   email: string,
   password: string
 ): Promise<boolean> => {
-  const user =
-    await getUserByEmail(email);
+  const user = await getUserByEmail(email);
 
   if (!user) {
     return false;
@@ -47,8 +41,7 @@ export const verifyOtp = async (
   email: string,
   otp: string
 ): Promise<boolean> => {
-  const user =
-    await getUserByEmail(email);
+  const user = await getUserByEmail(email);
 
   if (!user) {
     return false;
@@ -62,8 +55,7 @@ export const createUser = async (
   email: string,
   password: string
 ): Promise<User> => {
-  const existingUser =
-    await getUserByEmail(email);
+  const existingUser = await getUserByEmail(email);
 
   if (existingUser) {
     throw new Error(
@@ -71,22 +63,17 @@ export const createUser = async (
     );
   }
 
-  const otp =
-    Math.floor(
-      100000 +
-        Math.random() * 900000
-    ).toString();
+  const otp = Math.floor(
+    100000 + Math.random() * 900000
+  ).toString();
 
   const response = await fetch(
     `${API_URL}/users`,
     {
       method: "POST",
-
       headers: {
-        "Content-Type":
-          "application/json",
+        "Content-Type": "application/json",
       },
-
       body: JSON.stringify({
         name,
         email,
@@ -97,15 +84,7 @@ export const createUser = async (
   );
 
   if (!response.ok) {
-    const error =
-      await response.json().catch(
-        () => null
-      );
-
-    throw new Error(
-      error?.message ||
-        "Unable to create account."
-    );
+    throw new Error("Unable to create account.");
   }
 
   return await response.json();
@@ -115,25 +94,19 @@ export const updatePassword = async (
   email: string,
   newPassword: string
 ): Promise<User> => {
-  const user =
-    await getUserByEmail(email);
+  const user = await getUserByEmail(email);
 
   if (!user) {
-    throw new Error(
-      "User not found"
-    );
+    throw new Error("User not found");
   }
 
   const response = await fetch(
     `${API_URL}/users/${user.id}`,
     {
       method: "PATCH",
-
       headers: {
-        "Content-Type":
-          "application/json",
+        "Content-Type": "application/json",
       },
-
       body: JSON.stringify({
         password: newPassword,
       }),
@@ -141,9 +114,7 @@ export const updatePassword = async (
   );
 
   if (!response.ok) {
-    throw new Error(
-      "Unable to update password"
-    );
+    throw new Error("Unable to update password");
   }
 
   return response.json();
