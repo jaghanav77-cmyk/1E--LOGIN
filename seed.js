@@ -9,9 +9,7 @@ const db = JSON.parse(
 
 const users = db.users;
 
-console.log(
-  `Found ${users.length} users.`
-);
+console.log(`Found ${users.length} users.`);
 
 for (const user of users) {
   try {
@@ -20,14 +18,14 @@ for (const user of users) {
       {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "application/json"
         },
         body: JSON.stringify({
           name: user.name,
           email: user.email,
           password: user.password,
-          otp: user.otp,
-        }),
+          otp: user.otp
+        })
       }
     );
 
@@ -39,7 +37,7 @@ for (const user of users) {
       result = JSON.parse(text);
     } catch {
       result = {
-        message: text,
+        message: text
       };
     }
 
@@ -62,6 +60,4 @@ for (const user of users) {
   }
 }
 
-console.log(
-  "\nMigration finished."
-);
+console.log("\nMigration finished.");
