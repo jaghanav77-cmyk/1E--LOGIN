@@ -5,6 +5,7 @@ const store = getStore("login-users");
 async function getUsers() {
   const users = await store.get("users", {
     type: "json",
+    consistency: "strong",
   });
 
   return users || [];
