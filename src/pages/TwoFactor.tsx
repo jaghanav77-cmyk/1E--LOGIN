@@ -1,19 +1,30 @@
 import { useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { AlertCircle } from 'lucide-react';
+
 import { PrimaryButton } from '../components/ui/Button';
 import { verifyOtp } from '../api/auth';
 
 export const TwoFactor = () => {
-  const [otp, setOtp] = useState(['', '', '', '', '', '']);
+  const navigate = useNavigate();
+
+  const email = sessionStorage.getItem('authEmail') || '';
+  const registrationOtp =
+    sessionStorage.getItem('registrationOtp') || '';
+
+  const [otp, setOtp] = useState([
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+  ]);
+
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
-  const navigate = useNavigate();
-
-  const email =
-    sessionStorage.getItem('authEmail') || 'jaghanav@acmecorp.com';
 
   const handleChange = (index: number, value: string) => {
     if (!/^\d*$/.test(value)) {
@@ -34,34 +45,56 @@ export const TwoFactor = () => {
 
   const handleKeyDown = (
     index: number,
-    e: React.KeyboardEvent<HTMLInputElement>
+    event: React.KeyboardEvent<HTMLInputElement>
   ) => {
-    if (e.key === 'Backspace' && !otp[index] && index > 0) {
+    if (
+      event.key === 'Backspace' &&
+      !otp[index] &&
+      index > 0
+    ) {
       inputRefs.current[index - 1]?.focus();
     }
   };
 
   const handleVerify = async () => {
+    setError('');
+
     const enteredOtp = otp.join('');
 
+    if (!email) {
+      setError(
+        'Authentication session expired. Please sign in again.'
+      );
+      return;
+    }
+
     if (enteredOtp.length !== 6) {
-      setError('Please enter the complete 6-digit verification code.');
+      setError(
+        'Please enter the complete 6-digit verification code.'
+      );
       return;
     }
 
     try {
       setLoading(true);
-      setError('');
 
-      const isValid = await verifyOtp(email, enteredOtp);
+      const isValid = await verifyOtp(
+        email,
+        enteredOtp
+      );
 
-      if (isValid) {
-        navigate('/success');
-      } else {
-        setError('Invalid verification code. Please try again.');
+      if (!isValid) {
+        setError(
+          'Invalid verification code. Please try again.'
+        );
+        return;
       }
+
+      navigate('/success');
     } catch (error) {
-      setError('Unable to connect to the server. Please try again.');
+      setError(
+        'Unable to connect to the server. Please try again.'
+      );
     } finally {
       setLoading(false);
     }
@@ -71,7 +104,7 @@ export const TwoFactor = () => {
     <div className="flex flex-col gap-6">
       <Link
         to="/login"
-        className="text-sm text-slate-500 hover:text-slate-800 flex items-center gap-1"
+        className="text-sm text-slate-500 hover:text-slate-800 flex items-center gap-1 w-fit"
       >
         &lt; Back
       </Link>
@@ -98,9 +131,31 @@ export const TwoFactor = () => {
           />
 
           <div>
-            <p className="font-semibold">Verification failed</p>
-            <p className="text-red-600">{error}</p>
+            <p className="font-semibold">
+              Verification failed
+            </p>
+
+            <p className="text-red-600">
+              {error}
+            </p>
           </div>
+        </div>
+      )}
+
+      {/* Demo OTP */}
+      {registrationOtp && (
+        <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+          <p className="text-sm font-semibold text-blue-700 mb-1">
+            Your verification code
+          </p>
+
+          <p className="text-sm text-blue-600 mb-2">
+            Use this code to complete your sign in.
+          </p>
+
+          <p className="text-3xl font-bold tracking-[0.4em] text-blue-800">
+            {registrationOtp}
+          </p>
         </div>
       )}
 
@@ -115,49 +170,37 @@ export const TwoFactor = () => {
             inputMode="numeric"
             maxLength={1}
             value={digit}
-            onChange={(e) =>
-              handleChange(index, e.target.value)
+            onChange={(event) =>
+              handleChange(
+                index,
+                event.target.value
+              )
             }
-            onKeyDown={(e) =>
-              handleKeyDown(index, e)
+            onKeyDown={(event) =>
+              handleKeyDown(index, event)
             }
             className="w-12 h-14 text-center text-xl font-semibold border border-slate-200 rounded-lg bg-slate-50 focus:border-indigo-600 focus:ring-2 focus:ring-indigo-600/20 outline-none transition-all"
           />
         ))}
       </div>
 
-      <div className="text-center text-sm text-slate-500 mb-2">
-        Code expires in 04:57 ·{' '}
-        <button
-          type="button"
-          className="font-semibold text-indigo-600 hover:underline"
-        >
-          Resend code
-        </button>{' '}
-        ·{' '}
-        <button
-          type="button"
-          className="font-semibold text-indigo-600 hover:underline"
-        >
-          Use a backup code
-        </button>
-      </div>
-
       <PrimaryButton
         onClick={handleVerify}
         disabled={loading}
       >
-        {loading ? 'Verifying...' : 'Verify and sign in'}
+        {loading
+          ? 'Verifying...'
+          : 'Verify and sign in'}
       </PrimaryButton>
 
-      <div className="text-center text-sm text-slate-500 mt-4 border-t border-slate-100 pt-6">
+      <div className="text-center text-sm text-slate-500 border-t border-slate-100 pt-6">
         Having trouble?{' '}
-        <a
-          href="#"
+        <button
+          type="button"
           className="font-semibold text-indigo-600 hover:underline"
         >
           Contact support
-        </a>
+        </button>
       </div>
     </div>
   );

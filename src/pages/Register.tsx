@@ -273,17 +273,16 @@ export const Register = () => {
           : 'Create account →'}
       </PrimaryButton>
 
-      <div className="text-center text-sm text-slate-500 border-t border-slate-100 pt-6">
-        Already have an account?{' '}
-
-        <button
-          type="button"
-          onClick={() => navigate('/login')}
-          className="font-semibold text-indigo-600 hover:underline"
-        >
-          Sign in
-        </button>
-      </div>
+    <div className="text-center text-sm text-slate-500 border-t border-slate-100 pt-6">
+  Already have an account?{' '}
+  <button
+    type="button"
+    onClick={() => navigate('/login')}
+    className="font-semibold text-indigo-600 hover:underline"
+  >
+    Sign in
+  </button>
+</div>
 
     </div>
   );
