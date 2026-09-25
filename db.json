@@ -60,7 +60,7 @@
       "id": "02oREgcJZKw",
       "name": "Jaghanav",
       "email": "jaghanav77@gmail.com",
-      "password": "Jaghanav10*",
+      "password": "Jaghanav11*",
       "otp": "123456"
     },
     {
@@ -90,6 +90,27 @@
       "password": "Jaghanav10*",
       "otp": "707094",
       "id": "OGWIs1ZvHVI"
+    },
+    {
+      "name": "Jaghanav Priyan M S K",
+      "email": "jaghanav88@gmail.com",
+      "password": "Jaghanav10*",
+      "otp": "228348",
+      "id": "Evd1_8DmeN4"
+    },
+    {
+      "name": "Jaghanav Priyan M S K",
+      "email": "jaghanav89@gmail.com",
+      "password": "Jaghanav10*",
+      "otp": "199697",
+      "id": "mSoJtTnTnTo"
+    },
+    {
+      "name": "Jaghanav Priyan M S K",
+      "email": "jaghanav37@gmail.com",
+      "password": "Jaghanav10*",
+      "otp": "267334",
+      "id": "oeZQjsEGeKU"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
