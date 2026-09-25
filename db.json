@@ -1,0 +1,82 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "email": "you@acmecorp.com",
+      "password": "password123",
+      "company": "acmecorp",
+      "name": "Acme User",
+      "otp": "123456"
+    },
+    {
+      "id": "1",
+      "name": "Jaghanav",
+      "email": "jaghanav@acmecorp.com",
+      "password": "jaghanav123",
+      "company": "acmecorp",
+      "otp": "777777"
+    },
+    {
+      "id": "2",
+      "name": "Shaik",
+      "email": "shaik@acmecorp.com",
+      "password": "shaik123",
+      "company": "acmecorp",
+      "otp": "696969"
+    },
+    {
+      "id": "3",
+      "name": "Dhamodharan",
+      "email": "dhamodharan@acmecorp.com",
+      "password": "dhamodharan123",
+      "company": "acmecorp",
+      "otp": "101010"
+    },
+    {
+      "id": "4",
+      "name": "Gokul",
+      "email": "gokul@acmecorp.com",
+      "password": "gokul123",
+      "company": "acmecorp",
+      "otp": "454545"
+    },
+    {
+      "id": "5",
+      "name": "Arun",
+      "email": "arun@acmecorp.com",
+      "password": "arun123",
+      "company": "acmecorp",
+      "otp": "232323"
+    },
+    {
+      "id": "6",
+      "name": "Karthik",
+      "email": "karthik@acmecorp.com",
+      "password": "karthik123",
+      "company": "acmecorp",
+      "otp": "909090"
+    },
+    {
+      "id": "02oREgcJZKw",
+      "name": "Jaghanav",
+      "email": "jaghanav77@gmail.com",
+      "password": "Jaghanav10*",
+      "otp": "123456"
+    },
+    {
+      "id": "Iqsclf0Iohk",
+      "name": "Jaghanav",
+      "email": "jaghanav10@gmail.com",
+      "password": "Jaghanav10*",
+      "otp": "123456"
+    },
+    {
+      "name": "Jaghanav7",
+      "email": "jaghanav11@gmail.com",
+      "password": "Jaghanav10*",
+      "otp": "176729",
+      "id": "gb4fOzfRcDs"
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
+}
